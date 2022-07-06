@@ -3,7 +3,6 @@ import json
 price = {"pp": 10, "gp": 1, "sp": 0.1, "cp": 0.01, }
 ids = ["AOh3phVs5PQ2Ae9A", "J5njm4YwaRu9sj3T", "MAi78zS5iDn4d5wp", "v9KEi6wvQBIMIAAA", "aLgv3EleWVLOWT68"]
 foundry_file = r"C:\Users\Mikolaj Grobelny\AppData\Local\FoundryVTT\Data\worlds\darklands\data\actors.db"
-character_file = "character_equipment.json"
 
 
 def remove_duplicate_ids(json_file):
@@ -36,5 +35,3 @@ def get_foundry_file():
 
 characters = remove_duplicate_ids(get_foundry_file())
 characters_dictionary = get_character_dictionary(characters)
-with open(character_file, "w") as f:
-    json.dump(characters_dictionary, f, indent=4)
