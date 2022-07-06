@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Wealth Viewer</title>
+        <link rel="stylesheet" href="../static/index.css">
+    </head>
+    <body>
+        <nav>
+            <header>Wealth Manager</header>
+            <ul>
+                <li>All Characters</li>
+                {% for character in characters %}
+                    <li>{{ character }}</li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <main>
+            <header>{{ current_character }}</header>
+        </main>
+    </body>
+</html>
