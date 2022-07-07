@@ -43,6 +43,11 @@ li {
 }
 main {
   display: flex;
+  flex-direction: column;
   border-left: 2px solid #283640;
   padding: 20px;
+}
+
+canvas {
+  display: flex;
 }
