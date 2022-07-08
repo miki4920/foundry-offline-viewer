@@ -17,9 +17,11 @@
         </nav>
         <main>
             <header>{{ current_character }}</header>
-            <canvas id="chartA"></canvas>
-            <canvas id="chartB"></canvas>
-            <canvas id="chartC"></canvas>
+            <section id="charts">
+                <canvas id="chartA"></canvas>
+                <canvas id="chartB"></canvas>
+                <canvas id="chartC"></canvas>
+            </section>
         </main>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
@@ -30,8 +32,8 @@ const myChart = new Chart(ctx, {
     data: {
         labels: {{ characters|tojson|safe }},
         datasets: [{
-            label: '% of Wealth',
-            data: [12, 19, 3, 5, 2],
+            label: 'Wealth In GP',
+            data: {{ wealth|tojson|safe }},
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -50,11 +52,8 @@ const myChart = new Chart(ctx, {
         }]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+        responsive: false,
+        aspectRatio: 1,
     }
 });
 </script>
