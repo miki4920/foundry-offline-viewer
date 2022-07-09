@@ -42,6 +42,7 @@ li {
 }
 main {
   display: flex;
+  flex-basis: 100%;
   flex-direction: column;
   border-left: 2px solid #283640;
   padding: 20px;
@@ -50,6 +51,11 @@ main {
 #charts {
   display: flex;
   flex-direction: row;
+  flex-basis: 100%;
+}
+
+.chart {
+  display: flex;
   flex-basis: 100%;
 }
 
