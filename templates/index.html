@@ -18,22 +18,53 @@
         <main>
             <header>{{ current_character }}</header>
             <section id="charts">
-                <canvas id="chartA"></canvas>
-                <canvas id="chartB"></canvas>
-                <canvas id="chartC"></canvas>
+                <canvas id="chartA" class="chart"></canvas>
+                <canvas id="chartB" class="chart"></canvas>
+                <canvas id="chartC" class="chart"></canvas>
             </section>
         </main>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
 <script>
-const ctx = document.getElementById('chartA');
-const myChart = new Chart(ctx, {
+const wealthChartContext = document.getElementById('chartA');
+const wealthChart = new Chart(wealthChartContext, {
     type: 'bar',
     data: {
-        labels: {{ characters|tojson|safe }},
+        labels: {{ wealth.1|tojson|safe }},
         datasets: [{
             label: 'Wealth In GP',
-            data: {{ wealth|tojson|safe }},
+            data: {{ wealth.0|tojson|safe }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: false,
+        aspectRatio: 1,
+    }
+});
+
+const wealthWithoutConsumablesContext = document.getElementById('chartB');
+const wealthWithoutConsumables = new Chart(wealthWithoutConsumablesContext, {
+    type: 'bar',
+    data: {
+        labels: {{ wealth_without_consumable.1|tojson|safe }},
+        datasets: [{
+            label: 'Wealth Without Consumables In GP',
+            data: {{ wealth_without_consumable.0|tojson|safe }},
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
