@@ -19,8 +19,7 @@ def main_app():
                 value += item_value
         wealth.append((round(value + value_consumables, 2), character.name))
         wealth_without_consumable.append((round(value, 2), character.name))
+    character_names = [character.name for character in characters]
     wealth = list(zip(*sorted(wealth, reverse=True)))
     wealth_without_consumable = list(zip(*sorted(wealth_without_consumable, reverse=True)))
-    character_names = [character.name for character in characters]
-    wealth = [round(sum([item.value * item.quantity for item in character.items]), 2) for character in characters]
-    return render_template("index.html", current_character="All Characters", characters=character_names, wealth=wealth)
+    return render_template("index.html", characters=character_names, wealth=wealth, wealth_without_consumable=wealth_without_consumable)
