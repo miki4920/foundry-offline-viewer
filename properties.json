@@ -1,0 +1,30 @@
+{
+  "potencyRune": {
+    "1": {
+      "level": 2,
+      "price": 35
+    },
+    "2": {
+      "level": 10,
+      "price": 935
+    },
+    "3": {
+      "level": 16,
+      "price": 8935
+    }
+  },
+  "strikingRune": {
+    "striking": {
+      "level": 4,
+      "price": 65
+    },
+    "greaterStriking": {
+      "level": 12,
+      "price": 1065
+    },
+    "majorStriking": {
+      "level": 19,
+      "price": 31065
+    }
+  }
+}
