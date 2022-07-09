@@ -1,11 +1,11 @@
-from flask import Flask, render_template
+from flask import render_template
 
-app = Flask(__name__)
+from update_file import app, db, Character
 
 
 @app.route("/")
-def hello():
-    characters_wealth_tuples = sorted([(149.73, "Jean"), (130.10, "Lizzie"), (100.50, "Quamnious"), (119.32, "Reiner"), (50.4, "Treasury")], reverse=True)
-    characters = [pair[1] for pair in characters_wealth_tuples]
-    wealth = [pair[0] for pair in characters_wealth_tuples]
-    return render_template("index.html", current_character="All Characters", characters=characters, wealth=wealth)
+def main_app():
+    characters = Character.query.order_by(Character.name).all()
+    character_names = [character.name for character in characters]
+    wealth = [round(sum([item.value * item.quantity for item in character.items]), 2) for character in characters]
+    return render_template("index.html", current_character="All Characters", characters=character_names, wealth=wealth)
