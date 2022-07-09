@@ -33,11 +33,17 @@ class CreateDatabase:
         self.coin_dictionary = {"pp": 10, "gp": 1, "sp": 0.1, "cp": 0.01, }
         self.ids = ["AOh3phVs5PQ2Ae9A", "J5njm4YwaRu9sj3T", "MAi78zS5iDn4d5wp", "v9KEi6wvQBIMIAAA", "aLgv3EleWVLOWT68"]
         self.foundry_path = r"C:\Users\Mikolaj Grobelny\AppData\Local\FoundryVTT\Data\worlds\darklands\data\actors.db"
+        self.properties_path = "properties.json"
+        self.properties = self.get_properties()
+
+    def get_properties(self):
+        with open(self.properties_path, "r") as file:
+            return json.load(file)
 
     def get_foundry_file(self):
         with open(self.foundry_path, "r") as file:
-            file = file.read().split("\n")[:-1]
-            file = [json.loads(line) for line in file]
+            text = file.readlines()
+            file = [json.loads(line) for line in text][::-1]
         return file
 
     def remove_duplicate_ids(self, json_file):
@@ -48,12 +54,15 @@ class CreateDatabase:
                 self.ids.remove(line["_id"])
         return unique_characters
 
-    def item_value_converter(self, price):
+    def item_value_converter(self, data):
         gold_value = 0
-        for coin_type, coin_quantity in price["value"].items():
+        for entry in data:
+            if self.properties.get(entry) and data[entry]["value"]:
+                gold_value += self.properties[entry][str(data[entry]["value"])]["price"]
+        for coin_type, coin_quantity in data["price"]["value"].items():
             gold_value += self.coin_dictionary[coin_type] * coin_quantity
-        if price.get("per"):
-            gold_value /= price["per"]
+        if data["price"].get("per"):
+            gold_value /= data["price"]["per"]
         return gold_value
 
     def insert_into_database(self, db):
@@ -64,7 +73,7 @@ class CreateDatabase:
             db.session.add(character)
             for item in items:
                 if item["data"].get("price") and "infused" not in item["data"]["traits"]["value"]:
-                    item_value = round(self.item_value_converter(item["data"]["price"]), 2)
+                    item_value = round(self.item_value_converter(item["data"]), 2)
                     consumable = "consumable" in item["data"]["traits"]["value"]
                     item = Item(owner=character, name=item["name"], description=item["data"]["description"]["value"],
                                 level=item["data"]["level"]["value"], value=item_value,
@@ -78,4 +87,3 @@ db.drop_all()
 db.create_all()
 
 CreateDatabase().insert_into_database(db)
-
