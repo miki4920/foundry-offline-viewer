@@ -25,6 +25,7 @@ class Item(db.Model):
     level = db.Column(db.SmallInteger, nullable=False)
     value = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.SmallInteger, nullable=False)
+    consumable = db.Column(db.Boolean, nullable=False)
 
 
 class CreateDatabase:
@@ -64,9 +65,10 @@ class CreateDatabase:
             for item in items:
                 if item["data"].get("price") and "infused" not in item["data"]["traits"]["value"]:
                     item_value = round(self.item_value_converter(item["data"]["price"]), 2)
+                    consumable = "consumable" in item["data"]["traits"]["value"]
                     item = Item(owner=character, name=item["name"], description=item["data"]["description"]["value"],
                                 level=item["data"]["level"]["value"], value=item_value,
-                                quantity=item["data"]["quantity"])
+                                quantity=item["data"]["quantity"], consumable=consumable)
                     db.session.add(item)
             db.session.commit()
 
