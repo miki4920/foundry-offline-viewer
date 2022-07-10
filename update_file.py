@@ -19,7 +19,7 @@ class Character(db.Model):
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey("character.id"), nullable=False)
-    owner = db.relationship("Character", backref=db.backref('items', lazy=True))
+    owner = db.relationship("Character", backref=db.backref('items', lazy="dynamic"))
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     level = db.Column(db.SmallInteger, nullable=False)
@@ -56,14 +56,16 @@ class CreateDatabase:
 
     def item_value_converter(self, data):
         gold_value = 0
+        level = data["level"]["value"]
         for entry in data:
             if self.properties.get(entry) and data[entry]["value"]:
                 gold_value += self.properties[entry][str(data[entry]["value"])]["price"]
+                level = max(self.properties[entry][str(data[entry]["value"])]["level"], level)
         for coin_type, coin_quantity in data["price"]["value"].items():
             gold_value += self.coin_dictionary[coin_type] * coin_quantity
         if data["price"].get("per"):
             gold_value /= data["price"]["per"]
-        return gold_value
+        return round(gold_value, 2), level
 
     def insert_into_database(self, db):
         characters = self.remove_duplicate_ids(self.get_foundry_file())
@@ -73,10 +75,10 @@ class CreateDatabase:
             db.session.add(character)
             for item in items:
                 if item["data"].get("price") and "infused" not in item["data"]["traits"]["value"]:
-                    item_value = round(self.item_value_converter(item["data"]), 2)
+                    item_value, level = self.item_value_converter(item["data"])
                     consumable = "consumable" in item["data"]["traits"]["value"]
                     item = Item(owner=character, name=item["name"], description=item["data"]["description"]["value"],
-                                level=item["data"]["level"]["value"], value=item_value,
+                                level=level, value=item_value,
                                 quantity=item["data"]["quantity"], consumable=consumable)
                     db.session.add(item)
             db.session.commit()
