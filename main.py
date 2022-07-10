@@ -2,13 +2,9 @@ from flask import render_template
 
 from update_file import app, db, Character
 
-character_colours = {
-    "Jean Autrisse": 'rgba(255, 99, 132, 0.2)',
-    "Lizzie": 'rgba(54, 162, 235, 0.2)',
-    "Qamnious": 'rgba(255, 206, 86, 0.2)',
-    "Reiner Fischer": 'rgba(75, 192, 192, 0.2)',
-    "Treasury": 'rgba(153, 102, 255, 0.2)'
-}
+character_colours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
+                     'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
+                     'rgba(153, 102, 255, 0.2)']
 
 
 def unzip_list(zipped_list):
@@ -17,23 +13,22 @@ def unzip_list(zipped_list):
 
 def get_wealth(characters):
     wealth = []
-    for character in characters:
-        wealth.append((round(sum([item.value * item.quantity for item in character.items]), 2), character.name, character_colours[character.name]))
+    for i, character in enumerate(characters):
+        wealth.append((round(sum([item.value * item.quantity for item in character.items]), 2), character.name, character_colours[i]))
     return unzip_list(wealth)
 
 
 def get_wealth_without_consumables(characters):
     wealth_without_consumables = []
-    for character in characters:
-        print(character.name)
-        wealth_without_consumables.append((round(sum([item.value * item.quantity for item in character.items.filter_by(consumable=False)]), 2), character.name, character_colours[character.name]))
+    for i, character in enumerate(characters):
+        wealth_without_consumables.append((round(sum([item.value * item.quantity for item in character.items.filter_by(consumable=False)]), 2), character.name, character_colours[i]))
     return unzip_list(wealth_without_consumables)
 
 
 def get_highest_item_level(characters):
     highest_item_level = []
-    for character in characters:
-        highest_item_level.append((max([item.level for item in character.items]), character.name, character_colours[character.name]))
+    for i, character in enumerate(characters):
+        highest_item_level.append((max([item.level for item in character.items]), character.name, character_colours[i]))
     return unzip_list(highest_item_level)
 
 
