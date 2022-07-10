@@ -7,6 +7,7 @@ name = "pypi"
 sqlalchemy = "*"
 flask = "*"
 flask-sqlalchemy = "*"
+watchdog = "*"
 
 [dev-packages]
 
