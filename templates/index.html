@@ -9,7 +9,7 @@
         <nav>
             <header>Wealth Manager</header>
             <ul>
-                <li>All Characters</li>
+                <li id="active">All Characters</li>
                 {% for character in characters %}
                     <li>{{ character }}</li>
                 {% endfor %}
@@ -34,20 +34,8 @@ const wealthChart = new Chart(wealthChartContext, {
         datasets: [{
             label: 'Wealth In GP',
             data: {{ wealth.0|tojson|safe }},
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-            ],
+            backgroundColor: {{ wealth.2|tojson|safe }},
+            borderColor: {{ wealth.2|tojson|safe|replace("0.2", "1")}},
             borderWidth: 1
         }]
     },
@@ -65,20 +53,8 @@ const wealthWithoutConsumables = new Chart(wealthWithoutConsumablesContext, {
         datasets: [{
             label: 'Wealth Without Consumables In GP',
             data: {{ wealth_without_consumable.0|tojson|safe }},
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-            ],
+            backgroundColor: {{ wealth_without_consumable.2|tojson|safe }},
+            borderColor: {{ wealth_without_consumable.2|tojson|safe|replace("0.2", "1")}},
             borderWidth: 1
         }]
     },
