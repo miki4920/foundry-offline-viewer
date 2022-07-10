@@ -32,7 +32,7 @@ class CreateDatabase:
     def __init__(self):
         self.coin_dictionary = {"pp": 10, "gp": 1, "sp": 0.1, "cp": 0.01, }
         self.ids = ["AOh3phVs5PQ2Ae9A", "J5njm4YwaRu9sj3T", "MAi78zS5iDn4d5wp", "v9KEi6wvQBIMIAAA", "aLgv3EleWVLOWT68"]
-        self.foundry_path = r"C:\Users\Mikolaj Grobelny\AppData\Local\FoundryVTT\Data\worlds\darklands\data\actors.db"
+        self.foundry_path = r"C:/Users/Mikolaj Grobelny/AppData/Local/FoundryVTT/Data/worlds/darklands/data/actors.db"
         self.properties_path = "properties.json"
         self.properties = self.get_properties()
 
@@ -84,8 +84,4 @@ class CreateDatabase:
             db.session.commit()
 
 
-db.create_all()
-db.drop_all()
-db.create_all()
 
-CreateDatabase().insert_into_database(db)
