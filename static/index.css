@@ -31,6 +31,10 @@ header {
   color: #D3D3D3;
 }
 
+#active {
+  color: #D3D3D3;
+}
+
 ul {
   list-style: none;
 }
@@ -59,5 +63,4 @@ main {
   flex-basis: 100%;
 }
 
-canvas {
-}
+
