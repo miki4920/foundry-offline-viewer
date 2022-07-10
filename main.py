@@ -2,24 +2,45 @@ from flask import render_template
 
 from update_file import app, db, Character
 
+character_colours = {
+    "Jean Autrisse": 'rgba(255, 99, 132, 0.2)',
+    "Lizzie": 'rgba(54, 162, 235, 0.2)',
+    "Qamnious": 'rgba(255, 206, 86, 0.2)',
+    "Reiner Fischer": 'rgba(75, 192, 192, 0.2)',
+    "Treasury": 'rgba(153, 102, 255, 0.2)'
+}
+
+
+def unzip_list(zipped_list):
+    return list(zip(*sorted(zipped_list, reverse=True)))
+
+
+def get_wealth(characters):
+    wealth = []
+    for character in characters:
+        wealth.append((round(sum([item.value * item.quantity for item in character.items]), 2), character.name, character_colours[character.name]))
+    return unzip_list(wealth)
+
+
+def get_wealth_without_consumables(characters):
+    wealth_without_consumables = []
+    for character in characters:
+        print(character.name)
+        wealth_without_consumables.append((round(sum([item.value * item.quantity for item in character.items.filter_by(consumable=False)]), 2), character.name, character_colours[character.name]))
+    return unzip_list(wealth_without_consumables)
+
+
+def get_highest_item_level(characters):
+    highest_item_level = []
+    for character in characters:
+        highest_item_level.append((max([item.level for item in character.items]), character.name, character_colours[character.name]))
+    return unzip_list(highest_item_level)
+
 
 @app.route("/")
 def main_app():
     characters = Character.query.order_by(Character.name).all()
-    wealth = []
-    wealth_without_consumable = []
-    for character in characters:
-        value = 0
-        value_consumables = 0
-        for item in character.items:
-            item_value = item.value * item.quantity
-            if item.consumable:
-                value_consumables += item_value
-            else:
-                value += item_value
-        wealth.append((round(value + value_consumables, 2), character.name))
-        wealth_without_consumable.append((round(value, 2), character.name))
+    wealth = get_wealth(characters)
+    wealth_without_consumable = get_wealth_without_consumables(characters)
     character_names = [character.name for character in characters]
-    wealth = list(zip(*sorted(wealth, reverse=True)))
-    wealth_without_consumable = list(zip(*sorted(wealth_without_consumable, reverse=True)))
     return render_template("index.html", characters=character_names, wealth=wealth, wealth_without_consumable=wealth_without_consumable)
