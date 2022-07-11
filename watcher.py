@@ -10,6 +10,7 @@ from update_file import db, CreateDatabase
 
 class MyHandler(FileSystemEventHandler):
     def on_modified(self, event):
+        # TODO Figure out how to prevent file locking
         db.create_all()
         db.drop_all()
         db.create_all()
