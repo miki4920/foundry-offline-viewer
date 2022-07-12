@@ -1,39 +1,15 @@
 import json
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+import os
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wealth.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-
-class Character(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-
-    def __repr__(self):
-        return '<Character %r>' % self.name
-
-
-class Item(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey("character.id"), nullable=False)
-    owner = db.relationship("Character", backref=db.backref('items', lazy="dynamic"))
-    name = db.Column(db.String(256), nullable=False)
-    description = db.Column(db.Text(), nullable=False)
-    level = db.Column(db.SmallInteger, nullable=False)
-    value = db.Column(db.Float, nullable=False)
-    quantity = db.Column(db.SmallInteger, nullable=False)
-    consumable = db.Column(db.Boolean, nullable=False)
+from common.model import Character, Item
 
 
 class CreateDatabase:
     def __init__(self):
         self.coin_dictionary = {"pp": 10, "gp": 1, "sp": 0.1, "cp": 0.01, }
         self.ids = ["AOh3phVs5PQ2Ae9A", "J5njm4YwaRu9sj3T", "MAi78zS5iDn4d5wp", "v9KEi6wvQBIMIAAA", "aLgv3EleWVLOWT68"]
-        self.foundry_path = r"C:/Users/Mikolaj Grobelny/AppData/Local/FoundryVTT/Data/worlds/darklands/data/actors.db"
-        self.properties_path = "properties.json"
+        self.foundry_path = os.getenv("FOUNDRY_PATH")
+        self.properties_path = "../properties.json"
         self.properties = self.get_properties()
 
     def get_properties(self):
