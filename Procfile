@@ -1,1 +1,1 @@
-web: gunicorn common/model:app 
+web: gunicorn common.model:app 
