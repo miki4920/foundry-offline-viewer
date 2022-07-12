@@ -9,6 +9,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 watchdog = "*"
 requests = "*"
+gunicorn = "*"
 
 [dev-packages]
 
