@@ -1,5 +1,4 @@
-from flask import request, render_template
-from werkzeug.datastructures import FileStorage
+from flask import render_template
 
 from common.model import app, Character
 
@@ -44,9 +43,3 @@ def main_app():
     character_names = [character.name for character in characters]
     return render_template("index.html", characters=character_names, wealth=wealth,
                            wealth_without_consumable=wealth_without_consumable)
-
-
-@app.route("/upload", methods=['POST'])
-def upload_file():
-    FileStorage(request.stream).save(app.config["DATABASE_NAME"])
-    return 'OK', 200
