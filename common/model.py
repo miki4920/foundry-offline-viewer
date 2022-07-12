@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
 
-app = Flask(__name__)
+app = Flask("app")
 app.config["DATABASE_NAME"] = os.getenv("DATABASE_NAME")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://' + app.config["DATABASE_NAME"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
