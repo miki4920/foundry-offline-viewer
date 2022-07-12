@@ -50,7 +50,3 @@ def main_app():
 def upload_file():
     FileStorage(request.stream).save(app.config["DATABASE_NAME"])
     return 'OK', 200
-
-
-if __name__ == '__main__':
-    app.run()
