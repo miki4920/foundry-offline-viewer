@@ -1,16 +1,10 @@
 import os
-import requests
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-from common.model import db
-from update_file import CreateDatabase
-
-
-def send_database():
-    with open('../wealth.db', 'rb') as file:
-        requests.post(os.getenv("URL"), data=file)
+from common.model import dynamodb
+from client_side.update_file import CreateDatabase
 
 
 class FoundryHandler(FileSystemEventHandler):
@@ -24,12 +18,8 @@ class FoundryHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if not event.is_directory and event.src_path.endswith(self.file_name):
-            db.create_all()
-            db.drop_all()
-            db.create_all()
-            CreateDatabase().insert_into_database(db)
-            send_database()
+            CreateDatabase(dynamodb).insert_into_database()
 
 
 if __name__ == "__main__":
-    event_handler = FoundryHandler()
+    FoundryHandler()
