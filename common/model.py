@@ -35,19 +35,11 @@ def create_table():
                 'AttributeName': 'id',
                 'KeyType': 'HASH'
             },
-            {
-                'AttributeName': 'name',
-                'KeyType': 'RANGE'
-            },
         ],
         AttributeDefinitions=[
             {
                 'AttributeName': 'id',
                 'AttributeType': 'N'
-            },
-            {
-                'AttributeName': 'name',
-                'AttributeType': 'S'
             },
         ],
         ProvisionedThroughput={
