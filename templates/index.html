@@ -7,21 +7,53 @@
     </head>
     <body>
         <nav>
-            <header>Wealth Manager</header>
-            <ul>
-                <li id="active">All Characters</li>
-                {% for character in characters %}
-                    <li>{{ character }}</li>
-                {% endfor %}
-            </ul>
+            <div id="sticky_nav">
+                <header>Wealth Manager</header>
+                <ul>
+                    {% for character in characters %}
+                        {% if current_character == character["name"]  %}
+                            <li><a href="/{{ character["name"] }}" id="active">{{ character["name"] }}</a></li>
+                        {% else %}
+                            <li><a href="/{{ character["name"] }}">{{ character["name"] }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
         </nav>
         <main>
             <header>{{ current_character }}</header>
             <section id="charts">
-                <canvas id="chartA" class="chart"></canvas>
-                <canvas id="chartB" class="chart"></canvas>
-                <canvas id="chartC" class="chart"></canvas>
+                <section class="chart_wrapper">
+                    <canvas id="chartA" class="chart"></canvas>
+                </section>
+                <section class="chart_wrapper">
+                    <canvas id="chartB" class="chart"></canvas>
+                </section>
             </section>
+                {% for character in characters %}
+                    {% if current_character == character["name"]  %}
+                            <section id="table">
+                            <section>
+                                <section class="row_header"><p>Name</p></section>
+                                <section class="row_header"><p>Level</p></section>
+                                <section class="row_header "><p>Quantity</p></section>
+                                <section class="row_header "><p>Value</p></section>
+                                <section class="row_header "><p>Total Value</p></section>
+                                <section class="row_header "><p>Consumable</p></section>
+                            </section>
+                            {% for item in character["items"] %}
+                                <section>
+                                    <section><p>{{ item["name"] }}</p></section>
+                                    <section><p>{{ item["level"] }}</p></section>
+                                    <section><p>{{ item["quantity"] }}</p></section>
+                                    <section><p>{{ item["value"] }} GP</p></section>
+                                    <section><p>{{ item["value"] * item["quantity"] }} GP</p> </section>
+                                    <section><p>{{ "✓" if item["consumable"] else '✗' }}</p></section>
+                                </section>
+                            {% endfor %}
+                            </section>
+                    {% endif %}
+                {% endfor %}
         </main>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
@@ -40,8 +72,7 @@ const wealthChart = new Chart(wealthChartContext, {
         }]
     },
     options: {
-        responsive: false,
-        aspectRatio: 1,
+        responsive: true,
     }
 });
 
@@ -59,8 +90,7 @@ const wealthWithoutConsumables = new Chart(wealthWithoutConsumablesContext, {
         }]
     },
     options: {
-        responsive: false,
-        aspectRatio: 1,
+        responsive: true,
     }
 });
 </script>
