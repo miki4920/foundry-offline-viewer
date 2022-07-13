@@ -12,6 +12,7 @@ class FoundryHandler(FileSystemEventHandler):
         path = os.getenv("FOUNDRY_PATH").split("/")
         self.file_name = path[-1:][0]
         self.observer = Observer()
+        self.observer.event_queue.maxsize = 100
         self.observer.schedule(self, "/".join(path[:-1]), recursive=False)
         self.observer.start()
         self.observer.join()
