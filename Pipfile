@@ -12,6 +12,7 @@ requests = "*"
 gunicorn = "*"
 pynamodb = "*"
 boto3 = "*"
+dynamodb-json = "*"
 
 [dev-packages]
 
