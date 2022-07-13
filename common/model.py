@@ -1,27 +1,59 @@
+import boto3
 import os
 
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+dynamodb = boto3.client("dynamodb", region_name=os.getenv("REGION"), aws_access_key_id=os.getenv("ACCESS_KEY"),
+                          aws_secret_access_key=os.getenv("SECRET_KEY"))
 
 
-app = Flask("app")
-app.config['SQLALCHEMY_DATABASE_URI'] = f"amazondynamodb:///?Access Key={os.getenv('ACCESS_KEY')}&Secret Key={os.getenv('SECRET_KEY')}&Domain=amazonaws.com&Region={os.getenv('REGION')}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+def create_table():
+    characters = dynamodb.create_table(
+        TableName='characters',
+        KeySchema=[
+            {
+                'AttributeName': 'name',
+                'KeyType': 'HASH'
+            },
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'name',
+                'AttributeType': 'S'
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 5,
+            'WriteCapacityUnits': 5
+        }
+    )
+    waiter = dynamodb.get_waiter('table_exists')
+    waiter.wait(TableName='characters')
 
-
-class Character(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-
-
-class Item(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey("character.id"), nullable=False)
-    owner = db.relationship("Character", backref=db.backref('items', lazy="dynamic"))
-    name = db.Column(db.String(256), nullable=False)
-    description = db.Column(db.Text(), nullable=False)
-    level = db.Column(db.SmallInteger, nullable=False)
-    value = db.Column(db.Float, nullable=False)
-    quantity = db.Column(db.SmallInteger, nullable=False)
-    consumable = db.Column(db.Boolean, nullable=False)
+    items = dynamodb.create_table(
+        TableName='items',
+        KeySchema=[
+            {
+                'AttributeName': 'id',
+                'KeyType': 'HASH'
+            },
+            {
+                'AttributeName': 'name',
+                'KeyType': 'RANGE'
+            },
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'id',
+                'AttributeType': 'N'
+            },
+            {
+                'AttributeName': 'name',
+                'AttributeType': 'S'
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 5,
+            'WriteCapacityUnits': 5
+        }
+    )
+    waiter = dynamodb.get_waiter('table_exists')
+    waiter.wait(TableName='items')
