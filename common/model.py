@@ -21,8 +21,8 @@ def create_table():
             },
         ],
         ProvisionedThroughput={
-            'ReadCapacityUnits': 5,
-            'WriteCapacityUnits': 5
+            'ReadCapacityUnits': 1,
+            'WriteCapacityUnits': 1
         }
     )
     waiter = dynamodb.get_waiter('table_exists')
@@ -43,8 +43,8 @@ def create_table():
             },
         ],
         ProvisionedThroughput={
-            'ReadCapacityUnits': 5,
-            'WriteCapacityUnits': 5
+            'ReadCapacityUnits': 20,
+            'WriteCapacityUnits': 20
         }
     )
     waiter = dynamodb.get_waiter('table_exists')
