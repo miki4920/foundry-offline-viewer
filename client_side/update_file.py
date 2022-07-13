@@ -60,7 +60,7 @@ class CreateDatabase:
             items = character["items"]
             item_ids = []
             for item in items:
-                if item["data"].get("price") and "infused" not in item["data"]["traits"]["value"]:
+                if item["data"].get("price") and item["data"].get("quantity") and "infused" not in item["data"]["traits"]["value"]:
                     item_value, level = self.item_value_converter(item["data"])
                     consumable = "consumable" in item["data"]["traits"]["value"]
                     self.client.put_item(TableName='items', Item={
