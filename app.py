@@ -1,4 +1,3 @@
-from boto3.dynamodb.types import TypeDeserializer
 from dynamodb_json import json_util as json
 from flask import render_template, Flask
 
@@ -55,8 +54,8 @@ def get_highest_item_level(characters):
 def main_app():
     characters = dynamodb.scan(TableName="characters")["Items"]
     for character in characters:
-        character["name"] = character["name"]["S"]
-        character["items"] = character["items"]["NS"]
+        character["name"] = json.loads(character["name"])
+        character["items"] = json.loads(character["items"])
         character["items"] = get_batch_items(character["items"])
     wealth = get_wealth(characters)
     wealth_without_consumable = get_wealth_without_consumables(characters)
