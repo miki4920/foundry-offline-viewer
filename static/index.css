@@ -26,6 +26,11 @@ header {
   color: #D3D3D3;
 }
 
+a, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
 #active {
   color: #D3D3D3;
 }
