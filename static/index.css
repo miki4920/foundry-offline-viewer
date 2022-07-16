@@ -4,10 +4,11 @@
   box-sizing:border-box;
 }
 
-body {
+html, body {
+  height: 100%;
+  width: 100%;
   background-color: #202B33;
   display: flex;
-  min-height: 100%;
 }
 
 nav {
@@ -38,27 +39,36 @@ a, a:visited, a:hover, a:active {
 ul {
   list-style: none;
 }
+
 li {
-  position: relative;
   padding: 10px 0;
   font-size: 1.5vw;
 
 }
 main {
   display: flex;
-  flex-basis: 100%;
+  flex-grow: 1;
   flex-direction: column;
   border-left: 2px solid #283640;
-  padding: 20px;
-}
-
-section {
-  display: flex;
-  flex-basis: 5%;
-  flex-grow: 1;
 }
 
 #charts {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+
+canvas {
+  flex-basis: 100%;
+}
+
+#table {
+  flex-grow: 1;
+  display: flex;
+  overflow: auto;
+}
+
+table {
   flex-grow: 1;
 }
 
