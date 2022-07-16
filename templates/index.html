@@ -23,15 +23,12 @@
         <main>
             <header>{{ current_character }}</header>
             <section id="charts">
-                <section class="chart_wrapper">
                     <canvas id="chartA" class="chart"></canvas>
-                </section>
-                <section class="chart_wrapper">
                     <canvas id="chartB" class="chart"></canvas>
-                </section>
             </section>
                 {% for character in characters %}
                     {% if current_character == character["name"]  %}
+                        <section id="table">
                             <table>
                             <tr>
                                 <th class="row_header"><p>Name</p></th>
@@ -52,6 +49,7 @@
                                 </tr>
                             {% endfor %}
                             </table>
+                        </section>
                     {% endif %}
                 {% endfor %}
         </main>
@@ -72,7 +70,8 @@ const wealthChart = new Chart(wealthChartContext, {
         }]
     },
     options: {
-        responsive: true,
+        responsive: false,
+        maintainAspectRatio: false
     }
 });
 
@@ -90,7 +89,8 @@ const wealthWithoutConsumables = new Chart(wealthWithoutConsumablesContext, {
         }]
     },
     options: {
-        responsive: true,
+        responsive: false,
+        maintainAspectRatio: false
     }
 });
 </script>
