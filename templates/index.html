@@ -32,26 +32,26 @@
             </section>
                 {% for character in characters %}
                     {% if current_character == character["name"]  %}
-                            <section id="table">
-                            <section>
-                                <section class="row_header"><p>Name</p></section>
-                                <section class="row_header"><p>Level</p></section>
-                                <section class="row_header "><p>Quantity</p></section>
-                                <section class="row_header "><p>Value</p></section>
-                                <section class="row_header "><p>Total Value</p></section>
-                                <section class="row_header "><p>Consumable</p></section>
-                            </section>
+                            <table>
+                            <tr>
+                                <th class="row_header"><p>Name</p></th>
+                                <th class="row_header"><p>Level</p></th>
+                                <th class="row_header "><p>Quantity</p></th>
+                                <th class="row_header "><p>Value</p></th>
+                                <th class="row_header "><p>Total Value</p></th>
+                                <th class="row_header "><p>Consumable</p></th>
+                            </tr>
                             {% for item in character["items"] %}
-                                <section>
-                                    <section><p>{{ item["name"] }}</p></section>
-                                    <section><p>{{ item["level"] }}</p></section>
-                                    <section><p>{{ item["quantity"] }}</p></section>
-                                    <section><p>{{ item["value"] }} GP</p></section>
-                                    <section><p>{{ item["value"] * item["quantity"] }} GP</p> </section>
-                                    <section><p>{{ "✓" if item["consumable"] else '✗' }}</p></section>
-                                </section>
+                                <tr>
+                                    <th><p>{{ item["name"] }}</p></th>
+                                    <th><p>{{ item["level"] }}</p></th>
+                                    <th><p>{{ item["quantity"] }}</p></th>
+                                    <th><p>{{ item["value"] }} GP</p></th>
+                                    <th><p>{{ item["value"] * item["quantity"] }} GP</p> </th>
+                                    <th><p>{{ "✓" if item["consumable"] else '✗' }}</p></th>
+                                </tr>
                             {% endfor %}
-                            </section>
+                            </table>
                     {% endif %}
                 {% endfor %}
         </main>

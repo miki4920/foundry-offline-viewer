@@ -62,18 +62,6 @@ section {
   flex-grow: 1;
 }
 
-.chart_wrapper {
-  display: flex;
-  position: relative;
-  flex-grow: 1;
-}
-
-#table {
-  display: flex;
-  flex-direction: column;
-  font-size: 1vw;
-}
-
 .row_header p {
   color: #D3D3D3;
 }
