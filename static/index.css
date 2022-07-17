@@ -63,17 +63,22 @@ canvas {
 }
 
 #table {
-  flex-grow: 1;
   display: flex;
   overflow: auto;
 }
 
+th, td {
+  width: 16.6%;
+}
+
 table {
+  table-layout: auto;
   flex-grow: 1;
 }
 
 .row_header p {
   color: #D3D3D3;
+  flex-basis: 100%;
 }
 
 p {
