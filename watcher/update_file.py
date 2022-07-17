@@ -2,7 +2,7 @@ import json
 import os
 from decimal import Decimal
 
-from common.model import truncate_table
+from database import truncate_table
 
 
 class CreateDatabase:
