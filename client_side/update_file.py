@@ -2,7 +2,7 @@ import json
 import os
 from decimal import Decimal
 
-from common.model import create_table
+from common.model import truncate_table
 
 
 class CreateDatabase:
@@ -13,14 +13,8 @@ class CreateDatabase:
         self.properties_path = os.getenv("PROPERTIES_PATH")
         self.properties = self.get_properties()
         self.client = client
-        self.truncate_table("characters")
-        self.truncate_table("items")
-        create_table()
-
-    def truncate_table(self, table):
-        self.client.delete_table(TableName=table)
-        waiter = self.client.get_waiter('table_not_exists')
-        waiter.wait(TableName=table)
+        truncate_table("characters")
+        truncate_table("items")
 
     def get_properties(self):
         with open(self.properties_path, "r") as file:
