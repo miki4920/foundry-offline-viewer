@@ -1,6 +1,4 @@
 from flask import render_template, Flask, redirect
-
-from common.model import dynamodb
 from database_methods import fetch_characters
 
 character_colours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
