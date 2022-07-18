@@ -1,7 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import {Bar} from 'react-chartjs-2';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
 class Nav extends React.Component {
     renderCharacters() {
@@ -32,6 +51,35 @@ class Nav extends React.Component {
                 </nav>
             </React.Fragment>
         );
+    }
+}
+
+class Graphs extends React.Component {
+    render() {
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+        const wealthData = {
+            labels: this.props.data["wealth"][1],
+            datasets: [{
+                label: "Wealth in GP",
+                data: this.props.data["wealth"][0],
+                backgroundColor: this.props.data["wealth"][2]
+            }]
+        }
+        const wealthWithoutConsumables = {
+            labels: this.props.data["wealth_without_consumable"][1],
+            datasets: [{
+                label: "Wealth in GP",
+                data: this.props.data["wealth_without_consumable"][0],
+                backgroundColor: this.props.data["wealth_without_consumable"][2]
+            }]
+        }
+        return <React.Fragment>
+            <Bar options={options} data={wealthData}/>
+            <Bar options={options} data={wealthWithoutConsumables}/>
+        </React.Fragment>
     }
 }
 
@@ -108,7 +156,7 @@ class WealthViewer extends React.Component {
 
     componentDidMount() {
         fetch(
-            "http://localhost:5000/wealth")
+            "https://wealth-viewer.herokuapp.com/wealth")
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
@@ -128,7 +176,13 @@ class WealthViewer extends React.Component {
                 <Nav characters={this.state.data["characters"]} active={this.state.active}
                      onClick={button => this.setState({active: button.target.innerText})}/>
                 <main>
-                    <Table characters={this.state.data["characters"]} active={this.state.active}/>
+                    <header id="current_character">{this.state.active}</header>
+                    <section id="charts">
+                        <Graphs data={this.state.data}/>
+                    </section>
+                    <section id="table">
+                        <Table characters={this.state.data["characters"]} active={this.state.active}/>
+                    </section>
                 </main>
             </React.Fragment>
         );
