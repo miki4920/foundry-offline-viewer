@@ -8,7 +8,7 @@ character_colours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
                      'rgba(153, 102, 255, 0.2)']
 
 
-app = Flask("app", static_folder='frontend/build')
+app = Flask("app", static_folder='frontend/build', static_url_path="/")
 
 
 def unzip_list(zipped_list):
@@ -43,7 +43,7 @@ def get_highest_item_level(characters):
 
 @app.route("/")
 def serve():
-    return send_from_directory(app.static_folder, 'index.html')
+    return app.send_static_file('index.html')
 
 
 @app.get("/wealth")
