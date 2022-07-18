@@ -41,7 +41,7 @@ def get_highest_item_level(characters):
     return unzip_list(highest_item_level)
 
 
-@app.route("/index")
+@app.route("/")
 def serve():
     return app.send_static_file('index.html')
 
