@@ -53,19 +53,25 @@ ul {
 
 li {
   padding: 10px 0;
-
 }
+
+#current_character {
+  padding: 20px 0 0 20px;
+}
+
 main {
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
+  flex-basis: 100%;
   border-left: 2px solid #283640;
 }
 
 #charts {
   display: flex;
   flex-direction: row;
-  padding: 20px;
+  padding: 0 20px;
+  height: 50%;
+  width: 50%;
 }
 
 canvas {
