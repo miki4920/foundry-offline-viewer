@@ -73,7 +73,7 @@ class Graphs extends React.Component {
         const wealthWithoutConsumables = {
             labels: this.props.data["wealth_without_consumable"][1],
             datasets: [{
-                label: "Wealth in GP",
+                label: "Wealth Without Consumables in GP",
                 data: this.props.data["wealth_without_consumable"][0],
                 backgroundColor: this.props.data["wealth_without_consumable"][2],
                 borderColor: this.props.data["wealth_without_consumable"][2].map((x) => x.replace("0.2", "1")),
