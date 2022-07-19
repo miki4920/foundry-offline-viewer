@@ -21,11 +21,17 @@ h1 {
   content: "↓";
 }
 
+.headerSortAscendingNumber:after {
+  content: "↑";
+}
+
 .headerSortDescending:after {
   content: "↑";
 }
 
-
+.headerSortDescendingNumber:after {
+  content: "↓";
+}
 
 nav {
   color: #545F68;

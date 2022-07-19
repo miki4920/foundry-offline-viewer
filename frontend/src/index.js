@@ -136,7 +136,13 @@ class Table extends React.Component {
             let buttonClass = "";
             if (header === this.props.sorting) {
                 buttonClass = "active"
-                buttonClass += this.props.ascending ? " headerSortAscending" : " headerSortDescending"
+                if(isNaN(this.props.data[0]["items"][0][header])) {
+                    buttonClass += this.props.ascending ? " headerSortAscending" : " headerSortDescending"
+                }
+                else {
+                    buttonClass += this.props.ascending ? " headerSortAscendingNumber" : " headerSortDescendingNumber"
+                }
+
             }
             rows.push(<th key={uuidv4()} className="tableHeader">
                 <button onClick={this.props.onClick}
