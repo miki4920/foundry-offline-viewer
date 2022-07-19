@@ -76,7 +76,7 @@ def fetch_character(character):
     return character
 
 
-def fetch_characters():
+def fetch_data():
     characters = dynamodb.scan(TableName="characters")["Items"]
     for i, character in enumerate(characters):
         characters[i] = fetch_character(character)
