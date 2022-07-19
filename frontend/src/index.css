@@ -17,6 +17,16 @@ h1 {
   color: #D3D3D3;
 }
 
+.headerSortAscending:after {
+  content: "↓";
+}
+
+.headerSortDescending:after {
+  content: "↑";
+}
+
+
+
 nav {
   color: #545F68;
   padding: 20px;
@@ -47,7 +57,11 @@ nav button {
 }
 
 table button {
-    font-size: 1vw;
+    font-size: 1.25vw;
+}
+
+table p {
+  font-size: 1.0625vw;
 }
 
 .active {
