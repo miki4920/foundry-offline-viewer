@@ -15,7 +15,7 @@ def serve():
 @app.get("/wealth")
 def get():
     data = fetch_data()
-    response = flask.jsonify({"data": data})
+    response = flask.jsonify(data)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
