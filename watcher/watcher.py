@@ -4,7 +4,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 from database import dynamodb
-from watcher.update_file import CreateDatabase
+from update_file import CreateDatabase
 
 
 class FoundryHandler(FileSystemEventHandler):
