@@ -55,15 +55,15 @@ li {
   padding: 10px 0;
 }
 
-#current_character {
-  padding: 20px 0 0 20px;
-}
-
 main {
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
   border-left: 2px solid #283640;
+}
+
+main header {
+  padding: 20px 0 0 20px;
 }
 
 #charts {
