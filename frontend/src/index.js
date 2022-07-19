@@ -29,7 +29,7 @@ class Nav extends React.Component {
         for (let i = 0; i < this.props.data.length; i++) {
             let buttonClass = (this.props.data[i]["name"] === this.props.active) ? "active" : "";
             rows.push(<li key={uuidv4()}>
-                <button id={buttonClass} onClick={this.props.onClick}>{this.props.data[i]["name"]}</button>
+                <button className={buttonClass} onClick={this.props.onClick}>{this.props.data[i]["name"]}</button>
             </li>);
         }
         return rows
@@ -54,15 +54,16 @@ class Nav extends React.Component {
 
 class Graphs extends React.Component {
     options = {
-            responsive: true,
-            maintainAspectRatio: false
-        }
+        responsive: true,
+        maintainAspectRatio: false
+    }
     characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
-                     'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
-                     'rgba(153, 102, 255, 0.2)']
+        'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)']
+
     wealth(items) {
         let total = 0;
-        for(const item of items) {
+        for (const item of items) {
             total += parseFloat(item["total"])
         }
         return total
@@ -70,8 +71,8 @@ class Graphs extends React.Component {
 
     wealthWithoutConsumables(items) {
         let total = 0;
-        for(const item of items) {
-            if(!item["consumable"]) {
+        for (const item of items) {
+            if (!item["consumable"]) {
                 total += parseFloat(item["total"])
             }
         }
@@ -97,7 +98,7 @@ class Graphs extends React.Component {
     }
 
     graph(graphData, label) {
-        return  {
+        return {
             labels: graphData["labels"],
             datasets: [{
                 label: label,
@@ -114,7 +115,6 @@ class Graphs extends React.Component {
         const wealthGraph = this.graph(wealth, "Wealth in GP")
         const wealthWithoutConsumables = this.getGraphData(this.props.data, this.wealthWithoutConsumables)
         const wealthWithoutConsumablesGraph = this.graph(wealthWithoutConsumables, "Wealth in GP without consumables")
-        console.log(wealth)
         return <React.Fragment>
             <Bar options={this.options} data={wealthGraph}/>
             <Bar options={this.options} data={wealthWithoutConsumablesGraph}/>
@@ -124,22 +124,24 @@ class Graphs extends React.Component {
 
 
 class Table extends React.Component {
-    rowHeaders = ["name", "level", "quantity", "value", "total", "consumable"]
+    tableHeader = ["name", "level", "quantity", "value", "total", "consumable"]
+
     capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     renderHeaderRow() {
         const rows = []
-        for (const item of this.rowHeaders) {
-            const button = <th key={uuidv4()} className="row_header"><button>{this.capitalizeFirstLetter(item)}</button></th>
-            if (item === this.props.sorting) {
-                rows.push(<th key={uuidv4()} className="row_header">
-                    <button>{this.capitalizeFirstLetter(item)} {this.props.ascending ? " ↑" : " ↓"}</button>
-                </th>)
-            } else {
-                rows.push()
+        for (const header of this.tableHeader) {
+            let arrow = "";
+            let buttonClass = "";
+            if (header === this.props.sorting) {
+                buttonClass = "active"
+                arrow = this.props.ascending ? " ↑" : " ↓"
             }
+            rows.push(<th key={uuidv4()} className="tableHeader">
+                <button className={buttonClass}>{this.capitalizeFirstLetter(header) + arrow}</button>
+            </th>)
         }
         return (
             <React.Fragment key={uuidv4()}>
@@ -158,33 +160,38 @@ class Table extends React.Component {
                     <th key={uuidv4()}><p>{item["level"]}</p></th>
                     <th key={uuidv4()}><p>{item["quantity"]}</p></th>
                     <th key={uuidv4()}><p>{item["value"]} GP</p></th>
-                    <th key={uuidv4()}><p>{item["value"] * item["quantity"]} GP</p></th>
+                    <th key={uuidv4()}><p>{item["total"]} GP</p></th>
                     <th key={uuidv4()}><p>{item["consumable"] ? "✓" : '✗'}</p></th>
                 </tr>
             </React.Fragment>
         )
     }
 
-    sortRow(sorting, ascending) {
-        if (ascending) {
-            return function (first, second) {
-                return first[sorting] > second[sorting];
+    compareFct(a, b) {
+        a = a[this.props.sorting]
+        b = b[this.props.sorting]
+        if (isNaN(a)) {
+            if (isNaN(b)) {
+                return a.localeCompare(b);
+            } else {
+                return 1;
+            }
+        } else {
+            if (isNaN(b)) {
+                return -1;
+            } else {
+                return parseFloat(a) - parseFloat(b);
             }
         }
-        return function (first, second) {
-
-            return first[sorting] < second[sorting]
-        }
-
     }
 
-    renderRows(characters, active) {
+    renderRows() {
         const rows = []
         rows.push(this.renderHeaderRow())
-        for (let i = 0; i < characters.length; i++) {
-            if (characters[i]["name"] === active) {
-                let items = characters[i]["items"]
-                items = items.sort((a, b) => a[this.props.sorting].localeCompare(b[this.props.sorting], undefined, {numeric: true}))
+        for (let i = 0; i < this.props.data.length; i++) {
+            if (this.props.data[i]["name"] === this.props.active) {
+                let items = this.props.data[i]["items"]
+                items = items.sort((a, b) => this.compareFct(a, b))
                 for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
                     rows.push(this.renderRow(items[itemIndex], itemIndex));
                 }
@@ -194,13 +201,11 @@ class Table extends React.Component {
     }
 
     render() {
-        const characters = this.props.characters;
-        const active = this.props.active;
         return (
             <React.Fragment>
                 <table>
                     <tbody>
-                        {this.renderRows(characters, active)}
+                    {this.renderRows()}
                     </tbody>
                 </table>
             </React.Fragment>);
@@ -215,7 +220,7 @@ class WealthViewer extends React.Component {
         this.state = {
             data: {},
             active: "",
-            sorting: "name",
+            sorting: "value",
             ascending: true
         }
     }
@@ -225,7 +230,6 @@ class WealthViewer extends React.Component {
             "http://127.0.0.1:5000/wealth")
             .then((res) => res.json())
             .then((data) => {
-                console.log(data)
                 this.setState({
                     data: data,
                     active: data[0]["name"]
@@ -247,7 +251,7 @@ class WealthViewer extends React.Component {
                         <Graphs data={this.state.data}/>
                     </section>
                     <section id="table">
-                        <Table characters={this.state.data["characters"]} active={this.state.active}
+                        <Table data={this.state.data} active={this.state.active}
                                sorting={this.state.sorting} ascending={this.state.ascending}/>
                     </section>
                 </main>
