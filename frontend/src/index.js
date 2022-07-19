@@ -133,14 +133,14 @@ class Table extends React.Component {
     renderHeaderRow() {
         const rows = []
         for (const header of this.tableHeader) {
-            let arrow = "";
             let buttonClass = "";
             if (header === this.props.sorting) {
                 buttonClass = "active"
-                arrow = this.props.ascending ? " ↑" : " ↓"
+                buttonClass += this.props.ascending ? " headerSortAscending" : " headerSortDescending"
             }
             rows.push(<th key={uuidv4()} className="tableHeader">
-                <button className={buttonClass}>{this.capitalizeFirstLetter(header) + arrow}</button>
+                <button onClick={this.props.onClick}
+                        className={buttonClass}>{this.capitalizeFirstLetter(header)}</button>
             </th>)
         }
         return (
@@ -170,19 +170,22 @@ class Table extends React.Component {
     compareFct(a, b) {
         a = a[this.props.sorting]
         b = b[this.props.sorting]
+        const flip = this.props.ascending ? 1 : -1
+        let value = 0;
         if (isNaN(a)) {
             if (isNaN(b)) {
-                return a.localeCompare(b);
+                value = a.localeCompare(b);
             } else {
-                return 1;
+                value = 1;
             }
         } else {
             if (isNaN(b)) {
-                return -1;
+                value = -1;
             } else {
-                return parseFloat(a) - parseFloat(b);
+                value = parseFloat(a) - parseFloat(b);
             }
         }
+        return value * (flip)
     }
 
     renderRows() {
@@ -220,7 +223,7 @@ class WealthViewer extends React.Component {
         this.state = {
             data: {},
             active: "",
-            sorting: "value",
+            sorting: "name",
             ascending: true
         }
     }
@@ -235,6 +238,18 @@ class WealthViewer extends React.Component {
                     active: data[0]["name"]
                 });
             })
+    }
+
+    sortTable(button) {
+        const text = button.target.innerText.toLowerCase()
+        if (text === this.state.sorting) {
+            this.setState({ascending: !this.state.ascending})
+        } else {
+            this.setState({
+                sorting: text,
+                ascending: true
+            })
+        }
     }
 
     render() {
@@ -252,7 +267,10 @@ class WealthViewer extends React.Component {
                     </section>
                     <section id="table">
                         <Table data={this.state.data} active={this.state.active}
-                               sorting={this.state.sorting} ascending={this.state.ascending}/>
+                               sorting={this.state.sorting} ascending={this.state.ascending}
+                               onClick={(button) => {
+                                   this.sortTable(button)
+                               }}/>
                     </section>
                 </main>
             </React.Fragment>
