@@ -61,9 +61,10 @@ class CreateDatabase:
                         'id': {"N": str(count)},
                         'name': {"S": item["name"]},
                         'description': {"S": item["data"]["description"]["value"]},
-                        'level': {"N": str(level)},
-                        'value': {"N": str(item_value)},
-                        'quantity': {"N": str(item["data"]["quantity"])},
+                        'level': {"S": str(level)},
+                        'value': {"S": str(item_value)},
+                        'quantity': {"S": str(item["data"]["quantity"])},
+                        'total': {"S": str(item["data"]["quantity"] * item_value)},
                         'consumable': {"N": str(int(consumable))}
                     })
                     item_ids.append(str(count))
