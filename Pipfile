@@ -13,6 +13,7 @@ gunicorn = "*"
 pynamodb = "*"
 boto3 = "*"
 dynamodb-json = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
