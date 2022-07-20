@@ -1,5 +1,7 @@
 import os
 
+from dotenv import load_dotenv
+
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -23,4 +25,5 @@ class FoundryHandler(FileSystemEventHandler):
 
 
 if __name__ == "__main__":
+    load_dotenv()
     FoundryHandler()
