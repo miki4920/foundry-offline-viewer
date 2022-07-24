@@ -21,7 +21,7 @@ class CreateDatabase:
             return json.load(file)
 
     def get_foundry_file(self):
-        with open(self.foundry_path, "r") as file:
+        with open(self.foundry_path, "r", encoding="utf-8") as file:
             text = file.readlines()
         file = [json.loads(line) for line in text][::-1]
         return file
