@@ -15,6 +15,7 @@ def serve():
 @app.get("/wealth")
 def get():
     data = fetch_data()
+    data = sorted(data, key=lambda character_json: character_json["name"], reverse=True)
     response = flask.jsonify(data)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
