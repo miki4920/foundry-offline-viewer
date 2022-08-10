@@ -8,7 +8,7 @@ from database import truncate_table
 class CreateDatabase:
     def __init__(self, client):
         self.coin_dictionary = {"pp": 10, "gp": 1, "sp": 0.1, "cp": 0.01, }
-        self.ids = ["AOh3phVs5PQ2Ae9A", "J5njm4YwaRu9sj3T", "uW5Yzbb1H96P8Xid", "v9KEi6wvQBIMIAAA", "aLgv3EleWVLOWT68"]
+        self.ids = ["AOh3phVs5PQ2Ae9A", "J5njm4YwaRu9sj3T", "uW5Yzbb1H96P8Xid", "v9KEi6wvQBIMIAAA", "aLgv3EleWVLOWT68", "MAi78zS5iDn4d5wp"]
         self.foundry_path = os.getenv("FOUNDRY_PATH")
         self.properties_path = os.getenv("PROPERTIES_PATH")
         self.properties = self.get_properties()
