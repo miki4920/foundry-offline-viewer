@@ -12,6 +12,7 @@ import {
     Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
+import {isNumber} from "chart.js/helpers";
 
 ChartJS.register(
     CategoryScale,
@@ -57,33 +58,25 @@ class Graphs extends React.Component {
         responsive: true,
         maintainAspectRatio: false
     }
+    // TODO: CHANGE COLOURS
     characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
         'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
         'rgba(153, 102, 255, 0.2)', 'rgba(199, 160, 190, 0.2)']
 
     wealth(items) {
-        let total = 0;
-        for (const item of items) {
-            total += parseFloat(item["total"])
-        }
-        return total
+        return items.reduce((total, item) => total + parseFloat(item["total"]), 0)
     }
 
     wealthWithoutConsumables(items) {
-        let total = 0;
-        for (const item of items) {
-            if (!item["consumable"]) {
-                total += parseFloat(item["total"])
-            }
-        }
-        return total
+        let consumableOrZero = n => n["consumable"] ? 0 : parseFloat(n["total"])
+        return items.reduce((a, b) => a + consumableOrZero(b), 0)
     }
 
     getGraphData(data, valueFunction) {
         const graphList = [];
         const graphData = {};
         for (let i = 0; i < data.length; i++) {
-            graphList.push([data[i]["name"], valueFunction(data[i]["items"]).toFixed(2), this.characterColours[i]])
+            graphList.push([data[i]["name"], valueFunction(data[i]["items"]), this.characterColours[i]])
         }
         graphList.sort((a, b) => b[1] - a[1])
         graphData["labels"] = []
