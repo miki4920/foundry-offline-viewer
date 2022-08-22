@@ -12,7 +12,6 @@ import {
     Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
-import {isNumber} from "chart.js/helpers";
 
 ChartJS.register(
     CategoryScale,
@@ -58,7 +57,7 @@ class Graphs extends React.Component {
         responsive: true,
         maintainAspectRatio: false
     }
-    // TODO: CHANGE COLOURS
+    // TODO: CHANGE COLOURS UPON CONVERTING TO FOUNDRY 10
     characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
         'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
         'rgba(153, 102, 255, 0.2)', 'rgba(199, 160, 190, 0.2)']
@@ -109,8 +108,8 @@ class Graphs extends React.Component {
         const wealthWithoutConsumables = this.getGraphData(this.props.data, this.wealthWithoutConsumables)
         const wealthWithoutConsumablesGraph = this.graph(wealthWithoutConsumables, "Wealth in GP without consumables")
         return <React.Fragment>
-            <Bar options={this.options} data={wealthGraph}/>
-            <Bar options={this.options} data={wealthWithoutConsumablesGraph}/>
+            <Bar options={this.options} data={wealthGraph} type="bar"/>
+            <Bar options={this.options} data={wealthWithoutConsumablesGraph} type="bar"/>
         </React.Fragment>
     }
 }
@@ -170,7 +169,7 @@ class Table extends React.Component {
         a = a[this.props.sorting]
         b = b[this.props.sorting]
         const flip = this.props.ascending ? 1 : -1
-        let value = 0;
+        let value;
         if (isNaN(a)) {
             if (isNaN(b)) {
                 value = a.localeCompare(b);
