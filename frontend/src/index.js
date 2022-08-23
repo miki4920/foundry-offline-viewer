@@ -32,6 +32,7 @@ class Nav extends React.Component {
                 <button className={buttonClass} onClick={this.props.onClick}>{this.props.data[i]["name"]}</button>
             </li>);
         }
+        rows.push(<li key={uuidv4()}><button onClick={this.props.refreshData}>Refresh Data</button></li>)
         return rows
     }
 
@@ -44,6 +45,7 @@ class Nav extends React.Component {
                         <header>Wealth Manager</header>
                         <ul>
                             {rows}
+
                         </ul>
                     </div>
                 </nav>
@@ -226,7 +228,7 @@ class WealthViewer extends React.Component {
         }
     }
 
-    componentDidMount() {
+    getData() {
         fetch(
             "https://wealth-viewer.herokuapp.com/wealth")
             .then((res) => res.json())
@@ -236,6 +238,10 @@ class WealthViewer extends React.Component {
                     active: data[0]["name"]
                 });
             })
+    }
+
+    componentDidMount() {
+        this.getData()
     }
 
     sortTable(button) {
@@ -257,7 +263,7 @@ class WealthViewer extends React.Component {
         return (
             <React.Fragment>
                 <Nav data={this.state.data} active={this.state.active}
-                     onClick={button => this.setState({active: button.target.innerText})}/>
+                     onClick={button => this.setState({active: button.target.innerText})} refreshData={() => this.getData()}/>
                 <main>
                     <header>{this.state.active}</header>
                     <section id="charts">
