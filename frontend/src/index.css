@@ -6,11 +6,16 @@
   font-family: "Times New Roman", fantasy;
 }
 
-html, body, #root {
+html, body, root {
   height: 100%;
-  width: 100%;
   background-color: #202B33;
+}
+
+#root {
   display: flex;
+  height: 100%;
+  flex-direction: row;
+  background-color: #202B33;
 }
 
 h1 {
@@ -87,8 +92,8 @@ li {
 
 main {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  flex-basis: 100%;
   border-left: 2px solid #283640;
 }
 
@@ -99,14 +104,15 @@ main header {
 
 #charts {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  height: 50%;
-  width: 50%;
+  flex-direction: row;
+  flex-grow: 0;
 }
 
-canvas {
-  flex-basis: 100%;
+.chart {
+  display: flex;
+  flex-grow: 1;
+  width: 50%;
+
 }
 
 #table {
@@ -114,15 +120,17 @@ canvas {
   overflow: auto;
 }
 
+table {
+  table-layout: auto;
+  flex-grow: 1;
+}
+
 th, td {
   width: 16.6%;
   padding: 0.25% 0;
 }
 
-table {
-  table-layout: auto;
-  flex-grow: 1;
-}
+
 
 p {
   color: #545F68;

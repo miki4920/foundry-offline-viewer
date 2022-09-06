@@ -58,7 +58,6 @@ class Nav extends React.Component {
 class Graphs extends React.Component {
     options = {
         responsive: true,
-        maintainAspectRatio: false
     }
     // TODO: CHANGE COLOURS UPON CONVERTING TO FOUNDRY 10
     characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
@@ -111,8 +110,12 @@ class Graphs extends React.Component {
         const wealthWithoutConsumables = this.getGraphData(this.props.data, this.wealthWithoutConsumables)
         const wealthWithoutConsumablesGraph = this.graph(wealthWithoutConsumables, "Wealth in GP without consumables")
         return <React.Fragment>
+            <div className="chart">
             <Bar options={this.options} data={wealthGraph} type="bar"/>
-            <Bar options={this.options} data={wealthWithoutConsumablesGraph} type="bar"/>
+                </div>
+            <div className="chart">
+                <Bar options={this.options} data={wealthWithoutConsumablesGraph} type="bar"/>
+            </div>
         </React.Fragment>
     }
 }
@@ -267,9 +270,9 @@ class WealthViewer extends React.Component {
                      onClick={button => this.setState({active: button.target.innerText})} refreshData={() => this.getData()}/>
                 <main>
                     <header>{this.state.active}</header>
-                    <section id="charts">
+                    <div id="charts">
                         <Graphs data={this.state.data}/>
-                    </section>
+                    </div>
                     <section id="table">
                         <Table data={this.state.data} active={this.state.active}
                                sorting={this.state.sorting} ascending={this.state.ascending}
