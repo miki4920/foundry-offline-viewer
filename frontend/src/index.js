@@ -42,7 +42,8 @@ class Nav extends React.Component {
             <React.Fragment>
                 <nav>
                     <div id="sticky_nav">
-                        <header>Wealth Manager</header>
+                        <header>Wealth</header>
+                         <header>Manager</header>
                         <ul>
                             {rows}
 

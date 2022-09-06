@@ -34,18 +34,16 @@ h1 {
 }
 
 nav {
+  display: flex;
+  align-content: center;
   color: #545F68;
-  padding: 20px;
+  padding: 20px 0;
   border-right: 2px solid #1e2830;
 }
 
-#sticky_nav {
-  position: sticky;
-  top: 20px;
-}
-
 header {
-  font-size: 2vw;
+  text-align: center;
+  font-size: 1.5vw;
   color: #D3D3D3;
 }
 
@@ -59,7 +57,8 @@ button {
 }
 
 nav button {
-    font-size: 1.5vw;
+    font-size: 1.4vw;
+    text-align: center;
 }
 
 table button {
@@ -76,10 +75,14 @@ table p {
 
 ul {
   list-style: none;
+  display: flex;
+  flex-direction: column;
 }
 
 li {
-  padding: 10px 0;
+  display: flex;
+  align-content: center;
+  padding: 0.5vw 0;
 }
 
 main {
@@ -95,8 +98,8 @@ main header {
 
 #charts {
   display: flex;
-  flex-direction: row;
-  padding: 0 20px;
+  flex-direction: column;
+  flex-wrap: wrap;
   height: 50%;
   width: 50%;
 }
