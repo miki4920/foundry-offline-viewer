@@ -64,6 +64,7 @@ class CreateDatabase:
         characters = self.remove_duplicate_ids(self.get_foundry_file())
         count = 0
         for character in characters:
+            print(character["data"].get("skills"))
             items = character["items"]
             item_ids = []
             for item in items:
