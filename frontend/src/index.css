@@ -37,7 +37,7 @@ nav {
   display: flex;
   align-content: center;
   color: #545F68;
-  padding: 20px 0;
+  padding: 20px 0.5%;
   border-right: 2px solid #1e2830;
 }
 
@@ -66,7 +66,7 @@ table button {
 }
 
 table p {
-  font-size: 1.0625vw;
+  font-size: 1.15vw;
 }
 
 .active {
@@ -82,7 +82,7 @@ ul {
 li {
   display: flex;
   align-content: center;
-  padding: 0.5vw 0;
+  padding: 5% 0;
 }
 
 main {
@@ -116,16 +116,12 @@ canvas {
 
 th, td {
   width: 16.6%;
+  padding: 0.25% 0;
 }
 
 table {
   table-layout: auto;
   flex-grow: 1;
-}
-
-.tableHeader p {
-  color: #D3D3D3;
-  flex-basis: 100%;
 }
 
 p {
