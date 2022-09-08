@@ -45,7 +45,7 @@ class CreateDatabase:
     def item_value_converter(self, data):
         item_type = data["type"]
         item_type = item_type if item_type == "armor" else "other"
-        data = data["data"]
+        data = data["system"]
         level = data["level"]["value"]
         gold_value = 0
         for coin_type, coin_quantity in data["price"]["value"].items():
@@ -64,20 +64,19 @@ class CreateDatabase:
         characters = self.remove_duplicate_ids(self.get_foundry_file())
         count = 0
         for character in characters:
-            print(character["data"].get("skills"))
             items = character["items"]
             item_ids = []
             for item in items:
-                if item["data"].get("price") and item["data"].get("quantity") and "infused" not in item["data"]["traits"]["value"]:
+                if item["system"].get("price") and item["system"].get("quantity") and "infused" not in item["system"]["traits"]["value"]:
                     item_value, level = self.item_value_converter(item)
-                    consumable = "consumable" in item["data"]["traits"]["value"]
+                    consumable = "consumable" in item["system"]["traits"]["value"]
                     self.client.put_item(TableName='items', Item={
                         'id': {"N": str(count)},
                         'name': {"S": item["name"]},
                         'level': {"S": str(level)},
                         'value': {"S": str(item_value)},
-                        'quantity': {"S": str(item["data"]["quantity"])},
-                        'total': {"S": str(item["data"]["quantity"] * item_value)},
+                        'quantity': {"S": str(item["system"]["quantity"])},
+                        'total': {"S": str(item["system"]["quantity"] * item_value)},
                         'consumable': {"N": str(int(consumable))}
                     })
                     item_ids.append(str(count))
