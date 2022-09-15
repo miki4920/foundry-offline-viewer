@@ -35,21 +35,3 @@ def fetch_data():
     for i, character in enumerate(characters):
         characters[i] = fetch_character(character)
     return characters[::-1]
-
-
-def truncate_table(table_name):
-    table = dynamodb_resource.Table(table_name)
-    table_key_names = [key.get("AttributeName") for key in table.key_schema]
-    projection_expression = ", ".join('#' + key for key in table_key_names)
-    expression_attr_names = {'#' + key: key for key in table_key_names}
-    page = table.scan(ProjectionExpression=projection_expression, ExpressionAttributeNames=expression_attr_names)
-    with table.batch_writer() as batch:
-        while page["Count"] > 0:
-            for item_keys in page["Items"]:
-                batch.delete_item(Key=item_keys)
-            if 'LastEvaluatedKey' in page:
-                page = table.scan(
-                    ProjectionExpression=projection_expression, ExpressionAttributeNames=expression_attr_names,
-                    ExclusiveStartKey=page['LastEvaluatedKey'])
-            else:
-                break
