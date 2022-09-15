@@ -5,23 +5,17 @@ from dynamodb_json import json_util as json
 
 dynamodb = boto3.client("dynamodb", region_name=os.getenv("REGION"), aws_access_key_id=os.getenv("ACCESS_KEY"),
                         aws_secret_access_key=os.getenv("SECRET_KEY"))
-dynamodb_resource = boto3.resource("dynamodb", region_name=os.getenv("REGION"),
-                                   aws_access_key_id=os.getenv("ACCESS_KEY"),
-                                   aws_secret_access_key=os.getenv("SECRET_KEY"))
 
 
 def get_batch_items(items):
-    # CAN ONLY DO 100 ITEMS AT A TIME
-    response = dynamodb.batch_get_item(
-        RequestItems={
-            'items': {
-                'Keys': [{"id": {"S": item}} for item in items],
-                'ConsistentRead': True
-            }
-        },
-        ReturnConsumedCapacity='TOTAL'
-    )["Responses"]["items"]
-    return json.loads(response)
+    table = "items"
+    results = []
+    response = dynamodb.batch_get_item(RequestItems={table: {'Keys': [{"id": {"S": item}} for item in items]}})
+    results.extend(response['Responses'][table])
+    while response['UnprocessedKeys']:
+        response = dynamodb.batch_get_item(RequestItems={table: {'Keys': [{"id": {"S": item}} for item in items]}})
+        results.extend(response['Response'][table])
+    return json.loads(results)
 
 
 def fetch_character(character):
