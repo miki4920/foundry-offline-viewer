@@ -10,52 +10,6 @@ dynamodb_resource = boto3.resource("dynamodb", region_name=os.getenv("REGION"),
                                    aws_secret_access_key=os.getenv("SECRET_KEY"))
 
 
-def create_table():
-    characters = dynamodb.create_table(
-        TableName='characters',
-        KeySchema=[
-            {
-                'AttributeName': 'name',
-                'KeyType': 'HASH'
-            },
-        ],
-        AttributeDefinitions=[
-            {
-                'AttributeName': 'name',
-                'AttributeType': 'S'
-            },
-        ],
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 1,
-            'WriteCapacityUnits': 1
-        }
-    )
-    waiter = dynamodb.get_waiter('table_exists')
-    waiter.wait(TableName='characters')
-
-    items = dynamodb.create_table(
-        TableName='items',
-        KeySchema=[
-            {
-                'AttributeName': 'id',
-                'KeyType': 'HASH'
-            },
-        ],
-        AttributeDefinitions=[
-            {
-                'AttributeName': 'id',
-                'AttributeType': 'N'
-            },
-        ],
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 20,
-            'WriteCapacityUnits': 20
-        }
-    )
-    waiter = dynamodb.get_waiter('table_exists')
-    waiter.wait(TableName='items')
-
-
 def get_batch_items(items):
     # CAN ONLY DO 100 ITEMS AT A TIME
     response = dynamodb.batch_get_item(
