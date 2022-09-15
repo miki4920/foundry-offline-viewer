@@ -61,7 +61,7 @@ def get_batch_items(items):
     response = dynamodb.batch_get_item(
         RequestItems={
             'items': {
-                'Keys': [{"id": {"N": str(item)}} for item in items],
+                'Keys': [{"id": {"S": item}} for item in items],
                 'ConsistentRead': True
             }
         },
