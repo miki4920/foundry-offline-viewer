@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+
 import {v4 as uuidv4} from 'uuid';
 import {
     Chart as ChartJS,
@@ -13,6 +13,8 @@ import {
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 
+import './index.css';
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -21,6 +23,8 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
+const md5 = require('md5')
 
 
 class Nav extends React.Component {
@@ -64,11 +68,6 @@ class Graphs extends React.Component {
             responsive: true,
             onClick: this.graphClickEvent(this.props.updateActive)
         }
-        // TODO: CHANGE COLOURS UPON CONVERTING TO FOUNDRY 10
-        this.characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)', 'rgba(199, 160, 190, 0.2)']
-
     }
 
     graphClickEvent(updateActive) {
@@ -78,10 +77,10 @@ class Graphs extends React.Component {
                 const firstPoint = points[0]
                 const label = event["chart"].data.labels[firstPoint.index];
                 updateActive(label)
-        }
+            }
 
+        }
     }
-}
 
     wealth(items) {
         return items.reduce((total, item) => total + parseFloat(item["total"]), 0)
@@ -92,32 +91,43 @@ class Graphs extends React.Component {
         return items.reduce((a, b) => a + consumableOrZero(b), 0)
     }
 
+    hashColor(label) {
+        // TODO: SHIFT COLOURS WITH PARTY TO DETERMINE BEST ONES
+        return '#' + md5(label).slice(10, 16);
+    }
+
     getGraphData(data, valueFunction) {
         const graphList = [];
         const graphData = {};
         for (let i = 0; i < data.length; i++) {
-            graphList.push([data[i]["name"], valueFunction(data[i]["items"]), this.characterColours[i]])
+            let borderColor = this.hashColor(data[i]["name"])
+            let backgroundColor = borderColor + "40"
+            graphList.push([data[i]["name"], valueFunction(data[i]["items"]), borderColor, backgroundColor])
         }
         graphList.sort((a, b) => b[1] - a[1])
         graphData["labels"] = []
         graphData["data"] = []
+        graphData["borderColor"] = []
         graphData["backgroundColor"] = []
         for (const element of graphList) {
             graphData["labels"].push(element[0])
             graphData["data"].push(element[1])
-            graphData["backgroundColor"].push(element[2])
+            graphData["borderColor"].push(element[2])
+            graphData["backgroundColor"].push(element[3])
         }
         return graphData
     }
 
+
     graph(graphData, label) {
+        console.log(graphData["borderColor"] + "33")
         return {
             labels: graphData["labels"],
             datasets: [{
                 label: label,
                 data: graphData["data"],
                 backgroundColor: graphData["backgroundColor"],
-                borderColor: graphData["backgroundColor"].map((x) => x.replace("0.2", "1")),
+                borderColor: graphData["borderColor"],
                 borderWidth: 1
             }]
         }
