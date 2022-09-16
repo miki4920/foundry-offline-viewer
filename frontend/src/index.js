@@ -32,7 +32,9 @@ class Nav extends React.Component {
                 <button className={buttonClass} onClick={this.props.onClick}>{this.props.data[i]["name"]}</button>
             </li>);
         }
-        rows.push(<li key={uuidv4()}><button onClick={this.props.refreshData}>Refresh Data</button></li>)
+        rows.push(<li key={uuidv4()}>
+            <button onClick={this.props.refreshData}>Refresh Data</button>
+        </li>)
         return rows
     }
 
@@ -43,7 +45,7 @@ class Nav extends React.Component {
                 <nav>
                     <div id="sticky_nav">
                         <header>Wealth</header>
-                         <header>Manager</header>
+                        <header>Manager</header>
                         <ul>
                             {rows}
 
@@ -56,13 +58,30 @@ class Nav extends React.Component {
 }
 
 class Graphs extends React.Component {
-    options = {
-        responsive: true,
+    constructor(props) {
+        super(props);
+        this.options = {
+            responsive: true,
+            onClick: this.graphClickEvent(this.props.updateActive)
+        }
+        // TODO: CHANGE COLOURS UPON CONVERTING TO FOUNDRY 10
+        this.characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)', 'rgba(199, 160, 190, 0.2)']
+
     }
-    // TODO: CHANGE COLOURS UPON CONVERTING TO FOUNDRY 10
-    characterColours = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)', 'rgba(199, 160, 190, 0.2)']
+
+    graphClickEvent(updateActive) {
+        return function onClick(event) {
+            const points = event["chart"].getElementsAtEventForMode(event, 'nearest', {intersect: true}, true)
+            if (points.length) {
+                const firstPoint = points[0]
+                const label = event["chart"].data.labels[firstPoint.index];
+                updateActive(label)
+        }
+
+    }
+}
 
     wealth(items) {
         return items.reduce((total, item) => total + parseFloat(item["total"]), 0)
@@ -111,8 +130,8 @@ class Graphs extends React.Component {
         const wealthWithoutConsumablesGraph = this.graph(wealthWithoutConsumables, "Wealth in GP without consumables")
         return <React.Fragment>
             <div className="chart">
-            <Bar options={this.options} data={wealthGraph} type="bar"/>
-                </div>
+                <Bar options={this.options} data={wealthGraph} type="bar"/>
+            </div>
             <div className="chart">
                 <Bar options={this.options} data={wealthWithoutConsumablesGraph} type="bar"/>
             </div>
@@ -134,10 +153,9 @@ class Table extends React.Component {
             let buttonClass = "";
             if (header === this.props.sorting) {
                 buttonClass = "active"
-                if(isNaN(this.props.data[0]["items"][0][header])) {
+                if (isNaN(this.props.data[0]["items"][0][header])) {
                     buttonClass += this.props.ascending ? " headerSortAscending" : " headerSortDescending"
-                }
-                else {
+                } else {
                     buttonClass += this.props.ascending ? " headerSortAscendingNumber" : " headerSortDescendingNumber"
                 }
 
@@ -267,11 +285,12 @@ class WealthViewer extends React.Component {
         return (
             <React.Fragment>
                 <Nav data={this.state.data} active={this.state.active}
-                     onClick={button => this.setState({active: button.target.innerText})} refreshData={() => this.getData()}/>
+                     onClick={button => this.setState({active: button.target.innerText})}
+                     refreshData={() => this.getData()}/>
                 <main>
                     <header>{this.state.active}</header>
                     <div id="charts">
-                        <Graphs data={this.state.data}/>
+                        <Graphs data={this.state.data} updateActive={(label) => this.setState({active: label})}/>
                     </div>
                     <section id="table">
                         <Table data={this.state.data} active={this.state.active}
