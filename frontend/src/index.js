@@ -92,7 +92,6 @@ class Graphs extends React.Component {
     }
 
     hashColor(label) {
-        // TODO: SHIFT COLOURS WITH PARTY TO DETERMINE BEST ONES
         return '#' + md5(label).slice(10, 16);
     }
 
