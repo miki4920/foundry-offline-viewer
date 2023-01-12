@@ -19,4 +19,3 @@ def get():
     response = flask.jsonify(data)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-

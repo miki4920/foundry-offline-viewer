@@ -261,7 +261,7 @@ class WealthViewer extends React.Component {
 
     getData() {
         fetch(
-            "https://wealth-viewer.herokuapp.com/wealth")
+            "http://18.133.64.66/wealth")
             .then((res) => res.json())
             .then((data) => {
                 this.setState({
