@@ -6,7 +6,7 @@
     font-family: "Times New Roman", fantasy;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 800px) {
     html, body, root {
         height: 100%;
     }
@@ -20,7 +20,7 @@
     }
 
     nav button {
-        padding: 5% 0;
+        padding: 3% 0;
         font-size: 1.4vw;
     }
 
@@ -46,7 +46,7 @@
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     html, body, root {
         height: 100%;
     }
