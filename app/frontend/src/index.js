@@ -261,7 +261,7 @@ class WealthViewer extends React.Component {
 
     getData() {
         fetch(
-            "http://18.133.64.66/wealth")
+            process.env.REACT_APP_IP)
             .then((res) => res.json())
             .then((data) => {
                 this.setState({
