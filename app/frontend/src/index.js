@@ -261,7 +261,7 @@ class WealthViewer extends React.Component {
 
     getData() {
         fetch(
-            process.env.REACT_APP_IP)
+            "/wealth")
             .then((res) => res.json())
             .then((data) => {
                 this.setState({
