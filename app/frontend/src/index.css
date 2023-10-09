@@ -1,29 +1,83 @@
+[data-theme="light"] {
+    --background: #fffbff;
+    --outline: #6f797a;
+    --surface-1: #f3f6fc;
+    --surface-2: #eff3fa;
+    --surface-3: #edf2fa;
+    --surface-4: #eaf0f9;
+    --text: #251a00;
+}
+
+[data-theme="dark"] {
+    --background: #1C1B1F;
+    --outline: #938F99;
+    --surface-1: #212024;
+    --surface-2: #262529;
+    --surface-3: #2b2a2e;
+    --surface-4: #302f2e;
+    --text: #E6E1E5;
+}
+
+html, body, root {
+    background-color: var(--background);
+}
+
+#root {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+}
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: #545F68;
-    font-family: "Times New Roman", fantasy;
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+}
+
+header, nav button {
+    padding: 20px 20px;
+    font-size: 1.5vw;
+    text-align: center;
+}
+
+header, #charts, .tableHeader {
+    border-bottom: 1px solid var(--outline);
+}
+
+nav, #title, th, td, .chart {
+    border-right: 1px solid var(--outline);
+}
+
+#title {
+    top: 0;
+    position: sticky;
+    background-color: var(--background);
+}
+
+.chart {
+    padding: 20px;
+}
+
+tr:hover {
+    background-color: var(--surface-1);
+}
+
+th button {
+    padding: 10px;
+}
+
+th, td {
+    width: 16.6%;
+}
+
+p {
+    padding: 5px;
 }
 
 @media only screen and (min-width: 800px) {
-    html, body, root {
-        height: 100%;
-    }
-
-    header {
-        font-size: 1.5vw;
-    }
-
-    li {
-        padding: 5% 0;
-    }
-
-    nav button {
-        padding: 3% 0;
-        font-size: 1.4vw;
-    }
-
     #charts {
         display: flex;
         flex-direction: row;
