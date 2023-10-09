@@ -28,35 +28,44 @@ const md5 = require('md5')
 
 
 class Nav extends React.Component {
-    renderCharacters() {
-        const rows = []
+     renderCharacters() {
+        const characterButtons = []
         for (let i = 0; i < this.props.data.length; i++) {
             let buttonClass = (this.props.data[i]["name"] === this.props.active) ? "active" : "";
-            rows.push(<li key={uuidv4()}>
-                <button className={buttonClass} onClick={this.props.onClick}>{this.props.data[i]["name"]}</button>
-            </li>);
+            characterButtons.push(
+                <button
+                    key={uuidv4()}
+                    className={buttonClass}
+                    onClick={this.props.onClick}
+                >
+                    {this.props.data[i]["name"]}
+                </button>
+            );
         }
-        rows.push(<li key={uuidv4()}>
-            <button onClick={this.props.refreshData}>Refresh Data</button>
-        </li>)
-        return rows
+
+        return (
+            <>
+                {characterButtons}
+                <div className="bottom_bar">
+                    <button key={uuidv4()} onClick={this.props.refreshData}>
+                        Refresh
+                    </button>
+                    <button key={uuidv4()} onClick={this.props.changeTheme}>
+                        Theme
+                    </button>
+                </div>
+            </>
+        );
     }
 
     render() {
-        const rows = this.renderCharacters()
         return (
-            <React.Fragment>
-                <nav>
-                    <div id="sticky_nav">
-                        <header>Wealth</header>
-                        <header>Manager</header>
-                        <ul>
-                            {rows}
-
-                        </ul>
-                    </div>
-                </nav>
-            </React.Fragment>
+            <nav>
+                <div id="sticky_nav">
+                    <header>Wealth Manager</header>
+                    {this.renderCharacters()}
+                </div>
+            </nav>
         );
     }
 }
