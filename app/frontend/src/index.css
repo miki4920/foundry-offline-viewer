@@ -101,16 +101,7 @@ p {
 }
 
 @media only screen and (max-width: 800px) {
-    html, body, root {
-        height: 100%;
-    }
-
-    header {
-        font-size: 3vw;
-    }
-
-    nav button {
-        padding: 20% 0;
+    nav * {
         font-size: 3vw;
     }
 
