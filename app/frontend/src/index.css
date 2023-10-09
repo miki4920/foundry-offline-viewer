@@ -206,12 +206,6 @@ main {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    border-left: 2px solid #283640;
-}
-
-main header {
-    text-align: left;
-    padding: 20px 0 0 20px;
 }
 
 #table {
@@ -222,14 +216,5 @@ main header {
 table {
     table-layout: auto;
     flex-grow: 1;
-}
-
-th, td {
-    width: 16.6%;
-    padding: 0.25% 0;
-}
-
-
-p {
-    color: #545F68;
+    border-collapse: collapse;
 }
