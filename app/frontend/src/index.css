@@ -61,7 +61,7 @@ nav, #title, th, td, .chart {
     padding: 20px;
 }
 
-tr:hover {
+tr:not(:first-child):hover {
     background-color: var(--surface-1);
 }
 
@@ -169,6 +169,7 @@ nav {
 .bottom_bar button {
     width: 50%;
     border-top: 1px solid var(--outline);
+    border-bottom: 1px solid var(--outline);
 }
 
 button {
@@ -180,7 +181,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--surface-1);
+    background-color: var(--surface-2);
 }
 
 button:active {
