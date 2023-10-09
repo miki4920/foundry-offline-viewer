@@ -264,7 +264,8 @@ class WealthViewer extends React.Component {
             data: {},
             active: "",
             sorting: "name",
-            ascending: true
+            ascending: true,
+            theme: "dark"
         }
     }
 
@@ -282,6 +283,7 @@ class WealthViewer extends React.Component {
 
     componentDidMount() {
         this.getData()
+        document.documentElement.setAttribute('data-theme', this.state.theme);
     }
 
     sortTable(button) {
@@ -296,6 +298,14 @@ class WealthViewer extends React.Component {
         }
     }
 
+    toggleTheme() {
+    this.setState(prevState => ({
+        theme: prevState.theme === "light" ? "dark" : "light"
+    }), () => {
+        document.documentElement.setAttribute('data-theme', this.state.theme);
+    });
+}
+
     render() {
         if (Object.keys(this.state.data).length === 0) {
             return <h1> Data is Loading, please stand by... </h1>;
@@ -304,9 +314,10 @@ class WealthViewer extends React.Component {
             <React.Fragment>
                 <Nav data={this.state.data} active={this.state.active}
                      onClick={button => this.setState({active: button.target.innerText})}
-                     refreshData={() => this.getData()}/>
+                     refreshData={() => this.getData()}
+                     changeTheme={() => {this.toggleTheme()}}/>
                 <main>
-                    <header>{this.state.active}</header>
+                    <header id="title">{this.state.active}</header>
                     <div id="charts">
                         <Graphs data={this.state.data} updateActive={(label) => this.setState({active: label})}/>
                     </div>
@@ -315,7 +326,8 @@ class WealthViewer extends React.Component {
                                sorting={this.state.sorting} ascending={this.state.ascending}
                                onClick={(button) => {
                                    this.sortTable(button)
-                               }}/>
+                               }}
+                                />
                     </section>
                 </main>
             </React.Fragment>
