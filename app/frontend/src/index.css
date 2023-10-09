@@ -116,30 +116,16 @@ p {
         flex-grow: 1;
 
     }
-
     table button {
-    font-size: 3vw;
+        font-size: 3vw;
+    }
+
+    table p {
+        font-size: 3vw;
+    }
 }
 
-table p {
-    font-size: 3vw;
-}
-}
 
-html, body, root {
-    background-color: #202B33;
-}
-
-#root {
-    display: flex;
-    height: 100%;
-    flex-direction: row;
-    background-color: #202B33;
-}
-
-h1 {
-    color: #D3D3D3;
-}
 
 .headerSortAscending:after {
     content: "↓";
